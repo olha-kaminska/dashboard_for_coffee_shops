@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- scripts -->
+<script src="assets/jquery/jquery-3.1.0.min.js"></script>
+<script src="assets/tether/tether.min.js"></script>
+<script src="assets/bootstrap/bootstrap4-alpha3.min.js"></script>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script src="assets/web-analytics/overview.js"></script>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+<style>
+/*the container must be positioned relative:*/
+.custom-select {
+  position: relative;
+  font-family: Arial;
+}
+
+.custom-select select {
+  display: none; /*hide original SELECT element:*/
+}
+
+.select-selected {
+  background-color: #654321;
+}
+
+/*style the arrow inside the select element:*/
+.select-selected:after {
+  position: absolute;
+  content: "";
+  top: 14px;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-color: #fff transparent transparent transparent;
+}
+
+/*point the arrow upwards when the select box is open (active):*/
+.select-selected.select-arrow-active:after {
+  border-color: transparent transparent #fff transparent;
+  top: 7px;
+}
+
+/*style the items (options), including the selected item:*/
+.select-items div,.select-selected {
+  color: White;
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+  cursor: pointer;
+  user-select: none;
+}
+
+/*style items (options):*/
+.select-items {
+  position: absolute;
+  background-color: #654321;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+}
+
+/*hide the items when the select box is closed:*/
+.select-hide {
+  display: none;
+}
+
+.select-items div:hover, .same-as-selected {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+</style>
+
+<head>
+	 <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+        content="Responsive sidebar template with sliding effect and dropdown menu based on bootstrap 3">
+    <title>Coffee Shop Dashboard</title>
+
+    <!-- using online links -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+        integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link rel="stylesheet" href="//malihu.github.io/custom-scrollbar/jquery.mCustomScrollbar.min.css">
+
+    <!-- using local links -->
+    <!-- <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../node_modules/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css"> -->
+
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/sidebar-themes.css">
+    <link rel="shortcut icon" type="image/png" href="img/coffee.png" />
+</head>
+<script>
+var x, i, j, l, ll, selElmnt, a, b, c;
+/*look for any elements with the class "custom-select":*/
+x = document.getElementsByClassName("custom-select");
+l = x.length;
+for (i = 0; i < l; i++) {
+  selElmnt = x[i].getElementsByTagName("select")[0];
+  ll = selElmnt.length;
+  /*for each element, create a new DIV that will act as the selected item:*/
+  a = document.createElement("DIV");
+  a.setAttribute("class", "select-selected");
+  a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
+  x[i].appendChild(a);
+  /*for each element, create a new DIV that will contain the option list:*/
+  b = document.createElement("DIV");
+  b.setAttribute("class", "select-items select-hide");
+  for (j = 1; j < ll; j++) {
+    /*for each option in the original select element,
+    create a new DIV that will act as an option item:*/
+    c = document.createElement("DIV");
+    c.innerHTML = selElmnt.options[j].innerHTML;
+    c.addEventListener("click", function(e) {
+        /*when an item is clicked, update the original select box,
+        and the selected item:*/
+        var y, i, k, s, h, sl, yl;
+        s = this.parentNode.parentNode.getElementsByTagName("select")[0];
+        sl = s.length;
+        h = this.parentNode.previousSibling;
+        for (i = 0; i < sl; i++) {
+          if (s.options[i].innerHTML == this.innerHTML) {
+            s.selectedIndex = i;
+            h.innerHTML = this.innerHTML;
+            y = this.parentNode.getElementsByClassName("same-as-selected");
+            yl = y.length;
+            for (k = 0; k < yl; k++) {
+              y[k].removeAttribute("class");
+            }
+            this.setAttribute("class", "same-as-selected");
+            break;
+          }
+        }
+        h.click();
+    });
+    b.appendChild(c);
+  }
+  x[i].appendChild(b);
+  a.addEventListener("click", function(e) {
+      /*when the select box is clicked, close any other select boxes,
+      and open/close the current select box:*/
+      e.stopPropagation();
+      closeAllSelect(this);
+      this.nextSibling.classList.toggle("select-hide");
+      this.classList.toggle("select-arrow-active");
+    });
+}
+function closeAllSelect(elmnt) {
+  /*a function that will close all select boxes in the document,
+  except the current select box:*/
+  var x, y, i, xl, yl, arrNo = [];
+  x = document.getElementsByClassName("select-items");
+  y = document.getElementsByClassName("select-selected");
+  xl = x.length;
+  yl = y.length;
+  for (i = 0; i < yl; i++) {
+    if (elmnt == y[i]) {
+      arrNo.push(i)
+    } else {
+      y[i].classList.remove("select-arrow-active");
+    }
+  }
+  for (i = 0; i < xl; i++) {
+    if (arrNo.indexOf(i)) {
+      x[i].classList.add("select-hide");
+    }
+  }
+}
+/*if the user clicks anywhere outside the select box,
+then close all select boxes:*/
+document.addEventListener("click", closeAllSelect);
+</script>
+	<!-- /header -->
+<body>
+	
+	<div style="background-image: #; background-repeat: no-repeat;background-attachment: fixed;
+  background-size: cover;">
+    <div class="page-wrapper default-theme sidebar-bg bg2 toggled">
+        <nav id="sidebar" class="sidebar-wrapper">
+            <div class="sidebar-content">
+                <!-- sidebar-brand  -->
+                <div class="sidebar-item sidebar-brand">
+                    <a href="index.html">Coffee Shop Dashboard</a>
+                </div>
+                <!-- sidebar-header  -->
+                <div class="sidebar-item sidebar-header d-flex flex-nowrap">
+                    <div class="user-pic">
+                        <img class="img-responsive img-rounded" src="img/coffeeshop.png" alt="User picture">
+                    </div>
+                    <div class="user-info">
+                        <span class="user-name">
+                            <strong>Two Cats' cafe</strong>
+                        </span>
+                        <span class="user-role">Administrator</span>
+                        <span class="user-status">
+                            <i class="fa fa-circle"></i>
+                            <span>Online</span>
+                        </span>
+                    </div>
+                </div>
+                
+                <!-- sidebar-menu  -->
+                <div class=" sidebar-item sidebar-menu">
+                    <ul>
+                        <li class="header-menu">
+                            <span>My Coffee Shop</span>
+                        </li>
+						 <li class="sidebar-dropdown">
+                            <a href="#">
+                                <i class="fa fa-coffee"></i>
+                                <span class="menu-text">My Shop Data</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li>
+                                        <a href="shopdata.html">Edit shop data </a>
+                                    </li>
+                                    <li>
+                                        <a href="products.html">My products</a>
+                                    </li>
+                             
+                                </ul>
+                            </div>
+                        </li>
+											
+                       <li>
+                            <a href="rec.html">
+                                <i class="fa fa-comment"></i>
+                                <span class="menu-text">Get Recommendations</span>
+                            </a>
+                            
+                        </li>
+                        <li class="sidebar-dropdown">
+                            <a href="#">
+                                <i class="fa fa-shopping-cart"></i>
+                                <span class="menu-text">My Orders</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li>
+                                      <a href="https://www.pauligprofessional.com/en/">Make an order at Paulig</a>
+                                    </li>
+                                    <li>
+                                        <a href="ordershistory.html">Orders history</a>
+                                    </li>
+                             
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="mysales.html">
+                                <i class="fa fa-chart-line"></i>
+                                <span class="menu-text">My Sales</span>
+                            </a>
+                            
+                        </li>
+                        <li class="sidebar-dropdown">
+                            <a href="#">
+                                <i class="fa fa-chart-pie"></i>
+                                <span class="menu-text">Special Offers Analysis</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li>
+                                        <a href="addoffer.html">Add the new special offer</a>
+                                    </li>
+                                    <li>
+                                        <a href="offer_analysis.html">Get analysis</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        
+                        <li>
+						<li class="sidebar-dropdown">
+                            <a href="#">
+                                <i class="fa fa-calendar"></i>
+								
+							<span class="menu-text">Coffee Machine Calendar</span>
+                            </a>
+							<div class="sidebar-submenu">
+                                <ul>
+                                    <li>
+                                   <a href="addcoffeemachine.html">Add the new coffee machine</a>
+                                    </li>
+                                    <li>
+                                        <a href="mymachine.html">My machines overview</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+						</li>
+                        
+                    </ul>
+                </div>
+                <!-- sidebar-menu  -->
+            </div>
+            <!-- sidebar-footer  -->
+            <div class="sidebar-footer">
+			
+						<a href="feedback.html" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-envelope"></i>
+                                Feedback
+                            </a>
+			<a href="about.html" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-file-alt"></i>
+                                About
+                            </a>
+                
+                
+            </div>
+		</nav>
+		<!--end-->
+		
+		 <main class="page-content pt-2">
+		 <div id="overlay" class="overlay"></div>
+		  <div class="container-fluid p-5">
+                <div class="row">
+                    <div class="form-group col-md-12">
+					<h2>Special offers analysis</h2>
+				<!-- page-content-wrapper -->
+	<div class="page-content-toggle" id="page-content-wrapper">
+		<div class="container-fluid">
+
+<p><b>Choose the dates:</b></p>
+<input type="text" name="daterange" value="27/10/2020 - 7/11/2020" />
+
+<script>
+$(function() {
+  $('input[name="daterange"]').daterangepicker({
+    opens: 'left'
+  }, function(start, end, label) {
+    console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+  });
+});
+</script>
+<p></p>
+<p><b>Revenue chart</b></p>
+			<img src="img/offers.png" style="width:80%;display:block"  />
+
+			
+			<p></p>
+		<div class="row">    
+		<input type="button" class="button_active" onclick="confirm('Report saved!');" value="Download report" ;>    
+		</div> 
+		</div>
+		<!-- /.container-fluid -->
+
+	</div>
+	<!-- /page-content-wrapper -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous">
+    </script>
+    <script src="//malihu.github.io/custom-scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+
+</div>
+                </div>
+            </div>
+ </main>
+ </div>
+ <script src="js/main.js"></script>
+</div>
+</body>
+
+</html>

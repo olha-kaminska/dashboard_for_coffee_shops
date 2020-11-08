@@ -27,7 +27,7 @@
 </head>
 
 <body>
-<div style="background-image: url(img/office.jpg); background-repeat: no-repeat;background-attachment: fixed;
+<div style="background-image: #; background-repeat: no-repeat;background-attachment: fixed;
   background-size: cover;">
     <div class="page-wrapper default-theme sidebar-bg bg2 toggled">
         <nav id="sidebar" class="sidebar-wrapper">
@@ -59,7 +59,7 @@
                         <li class="header-menu">
                             <span>My Coffee Shop</span>
                         </li>
-						 <li class="sidebar-dropdown">
+                        <li class="sidebar-dropdown">
                             <a href="#">
                                 <i class="fa fa-coffee"></i>
                                 <span class="menu-text">My Shop Data</span>
@@ -76,7 +76,6 @@
                                 </ul>
                             </div>
                         </li>
-											
                        <li>
                             <a href="rec.html">
                                 <i class="fa fa-comment"></i>
@@ -135,7 +134,7 @@
 							<div class="sidebar-submenu">
                                 <ul>
                                     <li>
-                                   <a href="addcoffeemachine.html">Add the new coffee machine</a>
+                                      <a href="addcoffeemachine.html">Add the new coffee machine</a>
                                     </li>
                                     <li>
                                         <a href="mymachine.html">My machines overview</a>
@@ -165,139 +164,132 @@
             </div>
 		</nav>
 		
-		<style>
-			body, html {
-    height: 100%;
-}
-.hero-text {
-  text-align: center;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-}
-.hero-image {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("img/bg2.jpg");
-  height: 30%;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  position: relative;
-}	  
-
-</style>
-        <!-- page-content  -->
 		
+        <!-- page-content  -->
+		<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
         <main class="page-content pt-2">
 		
             <div id="overlay" class="overlay"></div>
             <div class="container-fluid p-5">
                 <div class="row">
                     <div class="form-group col-md-12">
-                        <h2>Hi, Two Cats' cafe!</h2>
-                        <p></p>
-						<!-- Tab links -->
-						<h4>Your daily statistics</h4>
-
-						<div class="tab">
-						  <button class="tablinks" onclick="openCity(event, 'revenue')">Daily Revenue</button>
-						  <button class="tablinks" onclick="openCity(event, 'clients')">Number of Clients</button>
-						  <button class="tablinks" onclick="openCity(event, 'top')">Top Product</button>
-						  <button class="tablinks" onclick="openCity(event, 'special')">Current Special Offer</button>
-						</div>
-
-						<!-- Tab content -->
-						<div id="revenue" class="tabcontent">						 
-						  <p>243.50€</p>
-						</div>
-
-						<div id="clients" class="tabcontent">
-						  <p>43</p>
-						</div>
-
-						<div id="top" class="tabcontent">
-						  <p>Latte Macchiato</p>
-						</div>
+                        <h2>Orders' history</h2>
+                        <p>History of your orders from Paulig</p>
+						<p></p>
 						
-						<div id="special" class="tabcontent">
-						  <p>Caramel Apple Macchiato</p>
-						</div>
-						
-					
+<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
+
+<style>
+#myInput {
+  background-image: url('/css/searchicon.png'); /* Add a search icon to input */
+  background-position: 10px 12px; /* Position the search icon */
+  background-repeat: no-repeat; /* Do not repeat the icon image */
+  width: 100%; /* Full-width */
+  font-size: 16px; /* Increase font-size */
+  padding: 12px 20px 12px 40px; /* Add some padding */
+  border: 1px solid #ddd; /* Add a grey border */
+  margin-bottom: 12px; /* Add some space below the input */
+}
+
+</style>						
+
+<script>
+function myFunction() {
+  // Declare variables
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+
+  // Loop through all table rows, and hide those who don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+</script>	
+	
+<table id="myTable">
+  <tr>
+    <th>Product name</th>
+	<th>Product quantity</th>
+	<th>Order day</th>
+    <th>Order number</th>
+    <th>Price</th>
+  </tr>
+  <tr>
+    <td>Vendor Whitener 10x750g</td>
+    <td>1</td>
+    <td>11/10/2020</td>
+	<td>177</td>
+    <td>124€</td>
+  </tr>
+  <tr>
+    <td>Tazza Low Lactose Hot Choco 10x1kg UTZ</td>
+    <td>1</td>
+    <td>11/10/2020</td>
+	<td>177</td>
+    <td>156€</td>
+  </tr>
+  <tr>
+    <td>Juhla Mokka Professional 4x1kg bean</td>
+    <td>3</td>
+    <td>23/10/2020</td>
+	<td>178</td>
+    <td>156€</td>
+  </tr>
+  <tr>
+    <td>Vendor Whitener 10x750g</td>
+    <td>2</td>
+    <td>23/10/2020</td>
+	<td>178</td>
+    <td>156€</td>
+  </tr>
+  <tr>
+    <td>Wooden stirrer 140mm (1000 pcs)</td>
+    <td>1</td>
+    <td>28/10/2020</td>
+	<td>179</td>
+    <td>15€</td>
+  </tr>
+  <tr>
+    <td>Paulig portion sugar brown 1000x4g</td>
+    <td>1</td>
+    <td>28/10/2020</td>
+	<td>179</td>
+    <td>40€</td>
+  </tr>
+</table>  
+						  	
+                    </div>
                 </div>
-
-			<style>
-			/* Style the tab */
-.tab {
-  overflow: hidden;
-  border: 1px solid #ccc;
-  background-color: #f1f1f1;
-}
-
-/* Style the buttons that are used to open the tab content */
-.tab button {
-  background-color: inherit;
-  float: left;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  padding: 14px 16px;
-  transition: 0.3s;
-}
-
-/* Change background color of buttons on hover */
-.tab button:hover {
-  background-color: #ddd;
-}
-
-/* Create an active/current tablink class */
-.tab button.active {
-  background-color: #ccc;
-}
-
-/* Style the tab content */
-.tabcontent {
-  display: none;
-  padding: 6px 12px;
-  border: 1px solid #ccc;
-  border-top: none;
-}
-			</style>
-			
-			<script>
-			function openCity(evt, cityName) {
-  // Declare all variables
-  var i, tabcontent, tablinks;
-
-  // Get all elements with class="tabcontent" and hide them
-  tabcontent = document.getElementsByClassName("tabcontent");
-  for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
-  }
-
-  // Get all elements with class="tablinks" and remove the class "active"
-  tablinks = document.getElementsByClassName("tablinks");
-  for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" active", "");
-  }
-
-  // Show the current tab, and add an "active" class to the button that opened the tab
-  document.getElementById(cityName).style.display = "block";
-  evt.currentTarget.className += " active";
-}
-</script>
             </div>
-			
-		</main>
-        
-			<div class="hero-image">
-			  <div class="hero-text">
-				<h5>Recommendation of the day</h5>
-				<p>Pumpkin Spice Latte - the hit of the season! Order Paulig Mundo coffe beans!</p>
-				<button onclick="location.href='https://www.pauligprofessional.com/en/coffee-1/filter-coffee-beans';">Order now!</button>
-			  </div>
-			</div>
+        </main>
+		
         <!-- page-content" -->
     </div>
     <!-- page-wrapper -->

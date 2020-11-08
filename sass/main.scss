@@ -134,37 +134,13 @@ body {
 
 /*----------sidebar background images --------------*/
 
-.sidebar-bg.beans .sidebar-wrapper {
-    background-image: url(../img/beans.jpg);
-}
 
 .sidebar-bg.bg2 .sidebar-wrapper {
     background-image: url(../img/bg2.jpg);
 }
 
-.sidebar-bg.bg3 .sidebar-wrapper {
-    background-image: url(../img/bg3.jpg);
-}
-
-.sidebar-bg.bg4 .sidebar-wrapper {
-    background-image: url(../img/bg4.jpg);
-}
-
-
-[data-bg="beans"] {
-    background-image: url(../img/beans.jpg);
-}
-
 [data-bg="bg2"] {
     background-image: url(../img/bg2.jpg);
-}
-
-[data-bg="bg3"] {
-    background-image: url(../img/bg3.jpg);
-}
-
-[data-bg="bg4"] {
-    background-image: url(../img/bg4.jpg);
 }
 
 /*---- border-radius ------*/
